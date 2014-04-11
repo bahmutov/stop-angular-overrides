@@ -10,8 +10,8 @@
 <script src="A1.js"></script> // angular.module('A', []) ...
 <script src="A2.js"></script> // angular.module('A', []) ... !!!
 // results in
-Uncaught Error: Angular module A already exists prevent-module-override.js:17
-  angular.module prevent-module-override.js:17
+Uncaught Error: Angular module A already exists stop-module-override.js:17
+  angular.module stop-module-override.js:17
   A2 A2.js:3
   (anonymous function)
 ```
@@ -22,6 +22,77 @@ results in an exception with details. Make sure to use function names when
 registering modules to get meaningful stack for easier debugging.
 This script is good for debugging environment, probably not necessary to run
 in production.
+
+Namespacing other conventions are good practice, but not really
+enforceable 100%, so I created this script. It prevents run-time overriding via these calls
+
+* angular.module
+* angular.filter (across all filter names)
+* angular.controller (across all controller names)
+  * for now works with array format `.controller('foo', ['dep1', 'dep2', ..., fn]);`
+
+## Overriding entities in Angular
+
+The overriding situation in Angular becomes terrible and hair-pulling as soon as you
+have several people working on the same web app. Name clashes can happen anywhere
+and result in silent and very non-obvious failures. Here is an example where the
+second module with the same name wins:
+
+```js
+angular.module('A', [])
+.directive('aDirective', function () {
+  return {
+    restrict: 'E',
+    template: '<div>module A: a-directive</div>'
+  };
+}).filter('F', function () {
+  return function () { return 'F'; };
+});
+
+angular.module('A', [])
+}).filter('F', function () {
+  return function () { return 'F2'; };
+});
+```
+
+Last registered entity with same name wins. In this case, second module with
+name A and filter F wins. To avoid the situation, we can change each module to
+have a different name. What about filters? They can clash across modules!
+This might be a design decision (allows overriding logic based on the closes module),
+but definitely causes weird behavior:
+
+```js
+angular.module('A', [])
+.directive('aDirective', function () {
+  return {
+    restrict: 'E',
+    template: '<div>module A: a-directive, filter result {{ 22 | F }}</div>'
+  };
+}).filter('F', function () {
+  return function () { return 'F'; };
+});
+
+angular.module('A2', [])
+.controller('A2Ctrl', function () {})
+.filter('F', function () {
+  return function () { return 'F2'; };
+});
+```
+
+Module A includes a directive which uses filter F. Second module A2
+includes a controller and also a filter with name F. Which filter would be
+used in side the `<a-directive>`? Depends on which controller is closest!
+
+```html
+<div ng-controller="A2Ctrl">
+  <a-directive></a-directive>
+</div>
+```
+
+`module A: a-directive, filter result F2`
+
+Even creating a controller for the `a-directive` does not help, the second
+unrelated module wins just because it surrounds the element on the page. Madness.
 
 ### Small print
 

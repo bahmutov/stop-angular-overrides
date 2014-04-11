@@ -8,6 +8,8 @@
   var _module = angular.module.bind(angular);
 
   var existingModules = Object.create(null);
+  var existingFilters = Object.create(null);
+  var existingControllers = Object.create(null);
 
   angular.module = function (name, deps) {
     if (!deps) {
@@ -17,7 +19,35 @@
       throw new Error('Angular module ' + name + ' already exists');
     }
     existingModules[name] = true;
-    return _module(name, deps);
+    var m = _module(name, deps);
+
+    // proxy .filter calls to the new module
+    var _filter = m.filter.bind(m);
+    m.filter = function (name, fn) {
+      if (!fn) {
+        return _filter(name);
+      }
+      if (existingFilters[name]) {
+        throw new Error('Angular filter ' + name + ' already exists');
+      }
+      existingFilters[name] = true;
+      return _filter(name, fn);
+    };
+
+    // proxy .controller calls to the new module
+    var _controller = m.controller.bind(m);
+    m.controller = function (name, deps) {
+      if (!deps) {
+        return _controller(name);
+      }
+      if (existingControllers[name]) {
+        throw new Error('Angular controller ' + name + ' already exists');
+      }
+      existingControllers[name] = true;
+      return _controller(name, deps);
+    };
+
+    return m;
   };
 
 }(window.angular));
