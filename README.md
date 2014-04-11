@@ -14,7 +14,7 @@ Uncaught Error: Angular module A already exists prevent-module-override.js:17
   angular.module prevent-module-override.js:17
   A2 A2.js:3
   (anonymous function)
-``
+```
 
 Basically maintains lightweight cache of registered angular names
 to prevent collision. Any attempt to override existing module / controller / filter
