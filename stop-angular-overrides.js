@@ -1,3 +1,4 @@
+/* global window */
 (function stopAngularOverrides(angular) {
   'use strict';
 

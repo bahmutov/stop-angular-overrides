@@ -1,4 +1,4 @@
-/* global window, require */
+/* global window, document, require, QUnit */
 var benv = require('benv');
 var Q = require('q');
 
@@ -71,11 +71,11 @@ QUnit.test('stop angular filter override', function () {
 
 QUnit.skip('values provided by overriden module', function () {
   var angular = benv.require('../bower_components/angular/angular.js', 'angular');
-  var first = angular.module('A', []).value('name', 'foo');
+  angular.module('A', []).value('name', 'foo');
   var $injector = angular.injector();
   QUnit.equal($injector.get('name'), 'foo', 'injector grabs name from first module');
 
-  var second = angular.module('A', []);
+  angular.module('A', []);
   // ?
   QUnit.equal($injector.get('name'), 'foo', 'injector grabs name from first module');
 });
