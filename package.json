@@ -38,6 +38,10 @@
   ],
   "license": "MIT",
   "main": "stop-angular-overrides.js",
+  "pre-commit": [
+    "grunt",
+    "npm test"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/bahmutov/stop-angular-overrides.git"
