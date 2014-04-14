@@ -99,6 +99,12 @@ used in side the `<a-directive>`? Depends on which controller is closest!
 Even creating a controller for the `a-directive` does not help, the second
 unrelated module wins just because it surrounds the element on the page. Madness.
 
+## Unit testing
+
+I unit tested the script using browser simulation under Nodejs.
+See my [blog post](http://bahmutov.calepin.co/unit-testing-angular-load-using-node.html)
+and [test.js](test/test.js)
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2014
