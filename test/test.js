@@ -26,6 +26,19 @@ QUnit.test('loading angular', function () {
   QUnit.func(angular.module, 'angular.module is an object');
 });
 
+QUnit.test('angular.bind', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  QUnit.func(angular.bind, 'angular.bind is a function');
+  var foo = {
+    name: 'foo',
+    getName: function () {
+      return this.name;
+    }
+  };
+  var name = angular.bind(foo, foo.getName);
+  QUnit.equal(name(), foo.name);
+});
+
 QUnit.test('last module overrides by default', function () {
   var angular = benv.require('../bower_components/angular/angular.js', 'angular');
   var first = angular.module('A', []);
@@ -67,15 +80,4 @@ QUnit.test('stop angular filter override', function () {
   QUnit.throws(function () {
     angular.module('A2', []).filter('f', function () {});
   }, 'Error');
-});
-
-QUnit.skip('values provided by overriden module', function () {
-  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
-  angular.module('A', []).value('name', 'foo');
-  var $injector = angular.injector();
-  QUnit.equal($injector.get('name'), 'foo', 'injector grabs name from first module');
-
-  angular.module('A', []);
-  // ?
-  QUnit.equal($injector.get('name'), 'foo', 'injector grabs name from first module');
 });
