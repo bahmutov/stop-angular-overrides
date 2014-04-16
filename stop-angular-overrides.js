@@ -6,7 +6,7 @@
     throw new Error('Missing angular');
   }
 
-  var _module = angular.module.bind(angular);
+  var _module = angular.bind(angular, angular.module);
 
   var existingModules = Object.create(null);
   var existingFilters = Object.create(null);
@@ -23,7 +23,7 @@
     var m = _module(name, deps);
 
     // proxy .filter calls to the new module
-    var _filter = m.filter.bind(m);
+    var _filter = angular.bind(m, m.filter);
     m.filter = function (name, fn) {
       if (!fn) {
         return _filter(name);
@@ -36,7 +36,7 @@
     };
 
     // proxy .controller calls to the new module
-    var _controller = m.controller.bind(m);
+    var _controller = angular.bind(m, m.controller);
     m.controller = function (name, deps) {
       if (!deps) {
         return _controller(name);
