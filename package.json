@@ -9,18 +9,18 @@
   "contributors": [],
   "dependencies": {},
   "devDependencies": {
-    "benv": "~0.1.5",
-    "coveralls": "^2.10.0",
-    "grunt": "^0.4.4",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-deps-ok": "^0.1.8",
-    "grunt-nice-package": "^0.4.0",
-    "grunt-npm2bower-sync": "^0.3.0",
-    "gt": "^0.8.36",
-    "matchdep": "^0.3.0",
+    "benv": "0.1.5",
+    "coveralls": "2.10.0",
+    "grunt": "0.4.5",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-deps-ok": "0.1.8",
+    "grunt-nice-package": "0.9.1",
+    "grunt-npm2bower-sync": "0.3.0",
+    "gt": "0.8.36",
+    "matchdep": "0.3.0",
     "pre-git": "0.0.15",
-    "q": "~1.0.1",
-    "time-grunt": "^0.3.1"
+    "q": "1.0.1",
+    "time-grunt": "0.3.1"
   },
   "directories": {
     "test": "test"
