@@ -134,3 +134,31 @@ QUnit.test('stop angular filter override', function () {
     angular.module('A2', []).filter('f', function () {});
   }, 'Error');
 });
+
+
+QUnit.test('stops controller overrides with undefined', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  var module = angular.module('A', []);
+
+  module.controller('aController', function () {});
+
+  QUnit.throws(function() {
+    module.controller('aController');
+  }, 'Error');
+});
+
+QUnit.test('stops filter overrides with undefined', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  var module = angular.module('A', []);
+  var filter = function () {};
+
+  module.filter('aFilter', function () { return filter; });
+
+  QUnit.throws(function() {
+    module.filter('aFilter');
+  }, 'Error');
+});
