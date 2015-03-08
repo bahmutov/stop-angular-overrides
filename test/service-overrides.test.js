@@ -110,11 +110,7 @@ QUnit.test('stop angular service (provider) override', function () {
   angular.module('A1', []).service('someService', function () {});
 
   QUnit.throws(function () {
-    angular.module('A2', []).provider('someService', function () {
-      this.$get = function () {
-        return function () {};
-      };
-    });
+    angular.module('A2', []).provider('someService', function () {});
   }, 'Error');
 });
 
