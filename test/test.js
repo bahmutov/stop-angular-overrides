@@ -26,6 +26,12 @@ QUnit.test('loading angular', function () {
   QUnit.func(angular.module, 'angular.module is an object');
 });
 
+QUnit.test('angular check', function () {
+  QUnit.throws(function() {
+    benv.require('../stop-angular-overrides.js');
+  }, 'Missing angular');
+});
+
 QUnit.test('angular.bind', function () {
   var angular = benv.require('../bower_components/angular/angular.js', 'angular');
   QUnit.func(angular.bind, 'angular.bind is a function');
