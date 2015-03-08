@@ -11,6 +11,7 @@
   var existingModules = Object.create(null);
   var existingFilters = Object.create(null);
   var existingControllers = Object.create(null);
+  var existingServices = Object.create(null);
 
   angular.module = function (name, deps) {
     if (!deps) {
@@ -42,6 +43,45 @@
       return _controller(name, fn);
     };
 
+    // proxy .service calls to the new module
+    var _service = angular.bind(m, m.service);
+    m.service = function (name, fn) {
+      if (existingServices[name]) {
+        throw new Error('Angular service ' + name + ' already exists');
+      }
+      existingServices[name] = true;
+      return _service(name, fn);
+    };
+
+    // proxy .factory calls to the new module
+    var _factory = angular.bind(m, m.factory);
+    m.factory = function (name, fn) {
+      if (existingServices[name]) {
+        throw new Error('Angular service ' + name + ' already exists');
+      }
+      existingServices[name] = true;
+      return _factory(name, fn);
+    };
+
+    // proxy .value calls to the new module
+    var _value = angular.bind(m, m.value);
+    m.value = function (name, o) {
+      if (existingServices[name]) {
+        throw new Error('Angular service ' + name + ' already exists');
+      }
+      existingServices[name] = true;
+      return _value(name, o);
+    };
+
+    // proxy .provider calls to the new module
+    var _provider = angular.bind(m, m.provider);
+    m.provider = function (name, fn) {
+      if (existingServices[name]) {
+        throw new Error('Angular service ' + name + ' already exists');
+      }
+      existingServices[name] = true;
+      return _provider(name, fn);
+    };
     return m;
   };
 

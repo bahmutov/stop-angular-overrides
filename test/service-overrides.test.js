@@ -68,3 +68,66 @@ QUnit.test('last service overrides by default', function () {
   someService = angular.injector(['ng', 'A']).get('someService');
   QUnit.equal(someService.name, 'ServiceA', 'someService -> fifth service');
 });
+
+
+QUnit.test('stop angular service override', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  angular.module('A1', []).service('someService', function () {});
+
+  QUnit.throws(function () {
+    angular.module('A2', []).service('someService', function () {});
+  }, 'Error');
+});
+
+QUnit.test('stop angular service (value) override', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  angular.module('A1', []).service('someService', function () {});
+
+  QUnit.throws(function () {
+    angular.module('A2', []).value('someService', {});
+  }, 'Error');
+});
+
+QUnit.test('stop angular service (factory) override', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  angular.module('A1', []).service('someService', function () {});
+
+  QUnit.throws(function () {
+    angular.module('A2', []).factory('someService', function () {});
+  }, 'Error');
+});
+
+QUnit.test('stop angular service (provider) override', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  angular.module('A1', []).service('someService', function () {});
+
+  QUnit.throws(function () {
+    angular.module('A2', []).provider('someService', function () {
+      this.$get = function () {
+        return function () {};
+      };
+    });
+  }, 'Error');
+});
+
+
+QUnit.test('stops service overrides with undefined', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  var module = angular.module('A', []);
+
+  module.service('someService', function () {});
+
+  QUnit.throws(function() {
+    module.service('someService');
+  }, 'Error');
+});
