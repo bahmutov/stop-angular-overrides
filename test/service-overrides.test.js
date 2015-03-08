@@ -131,3 +131,41 @@ QUnit.test('stops service overrides with undefined', function () {
     module.service('someService');
   }, 'Error');
 });
+
+
+QUnit.test('default behavior is not changed for initial service definition', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+  benv.require('../stop-angular-overrides.js');
+
+  var module = angular.module('A', []);
+
+  function SomeService () {
+    this.name = 'SomeService';
+  }
+
+  // service behavior
+  module.service('someService', SomeService);
+  var someService = angular.injector(['ng', 'A']).get('someService');
+  QUnit.equal(someService.name, 'SomeService');
+
+  // factory behavior
+  module.factory('someFactoryService', function () {
+    return new SomeService();
+  });
+  var someFactoryService = angular.injector(['ng', 'A']).get('someFactoryService');
+  QUnit.equal(someFactoryService.name, 'SomeService');
+
+  // value behavior
+  module.value('someValueService', new SomeService());
+  var someValueService = angular.injector(['ng', 'A']).get('someValueService');
+  QUnit.equal(someValueService.name, 'SomeService');
+
+  // provider behavior
+  module.provider('someProviderService', function () {
+    this.$get = function () {
+      return new SomeService();
+    };
+  });
+  var someProviderService = angular.injector(['ng', 'A']).get('someProviderService');
+  QUnit.equal(someProviderService.name, 'SomeService');
+});
