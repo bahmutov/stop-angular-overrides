@@ -8,17 +8,24 @@
 
   var _module = angular.bind(angular, angular.module);
 
-  var existingModules = Object.create(null);
-  var existingFilters = Object.create(null);
-  var existingControllers = Object.create(null);
-  var existingServices = Object.create(null);
+  function createUniqueNamingCheckFn(type) {
+    var existingNames = Object.create(null);
+    return function (name) {
+      if (existingNames[name]) {
+        throw new Error('Angular ' + type + ' ' + name + ' already exists');
+      }
+      existingNames[name] = true;
+    };
+  }
+
+  var existingModulesCheck = createUniqueNamingCheckFn('module');
+  var existingFiltersCheck = createUniqueNamingCheckFn('filter');
+  var existingControllersCheck = createUniqueNamingCheckFn('controller');
+  var existingServicesCheck = createUniqueNamingCheckFn('service');
 
   function createServiceProxyFn(module, moduleServiceFn) {
     return function (name, fn) {
-      if (existingServices[name]) {
-        throw new Error('Angular service ' + name + ' already exists');
-      }
-      existingServices[name] = true;
+      existingServicesCheck(name);
       return moduleServiceFn.call(module, name, fn);
     };
   }
@@ -27,29 +34,21 @@
     if (!deps) {
       return _module(name);
     }
-    if (existingModules[name]) {
-      throw new Error('Angular module ' + name + ' already exists');
-    }
-    existingModules[name] = true;
+    existingModulesCheck(name);
+
     var m = _module(name, deps);
 
     // proxy .filter calls to the new module
     var _filter = angular.bind(m, m.filter);
     m.filter = function (name, fn) {
-      if (existingFilters[name]) {
-        throw new Error('Angular filter ' + name + ' already exists');
-      }
-      existingFilters[name] = true;
+      existingFiltersCheck(name);
       return _filter(name, fn);
     };
 
     // proxy .controller calls to the new module
     var _controller = angular.bind(m, m.controller);
     m.controller = function (name, fn) {
-      if (existingControllers[name]) {
-        throw new Error('Angular controller ' + name + ' already exists');
-      }
-      existingControllers[name] = true;
+      existingControllersCheck(name);
       return _controller(name, fn);
     };
 
