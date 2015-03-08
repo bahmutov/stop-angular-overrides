@@ -25,9 +25,6 @@
     // proxy .filter calls to the new module
     var _filter = angular.bind(m, m.filter);
     m.filter = function (name, fn) {
-      if (!fn) {
-        return _filter(name);
-      }
       if (existingFilters[name]) {
         throw new Error('Angular filter ' + name + ' already exists');
       }
@@ -37,15 +34,12 @@
 
     // proxy .controller calls to the new module
     var _controller = angular.bind(m, m.controller);
-    m.controller = function (name, deps) {
-      if (!deps) {
-        return _controller(name);
-      }
+    m.controller = function (name, fn) {
       if (existingControllers[name]) {
         throw new Error('Angular controller ' + name + ' already exists');
       }
       existingControllers[name] = true;
-      return _controller(name, deps);
+      return _controller(name, fn);
     };
 
     return m;
