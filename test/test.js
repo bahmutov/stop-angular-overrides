@@ -54,6 +54,53 @@ QUnit.test('last module overrides by default', function () {
   QUnit.equal(angular.module('A'), second, 'A -> second module');
 });
 
+QUnit.test('last controller overrides by default', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+
+  var module = angular.module('A', []);
+  var First = function () {
+    this.name = 'first';
+  };
+  var Second = function () {
+    this.name = 'second';
+  };
+
+  module.controller('aController', First);
+  module.controller('aController', Second);
+
+  var $controller = angular.injector(['ng', 'A']).get('$controller');
+  var pseudoScope = $controller('aController', {$scope: {}});
+  QUnit.equal(pseudoScope.name, 'second', 'aController -> second module');
+
+  module.controller('aController');
+  $controller = angular.injector(['ng', 'A']).get('$controller');
+
+  QUnit.throws(function() {
+    $controller('aController', {$scope: {}});
+  }, 'Argument \'aController\' is not a function, got undefined');
+});
+
+QUnit.test('last filter overrides by default', function () {
+  var angular = benv.require('../bower_components/angular/angular.js', 'angular');
+
+  var module = angular.module('A', []);
+  var firstFilter = function () {};
+  var secondFilter = function () {};
+
+  module.filter('aFilter', function () { return firstFilter; });
+  module.filter('aFilter', function () { return secondFilter; });
+
+  var $filter = angular.injector(['ng', 'A']).get('$filter');
+  var loadedFilter = $filter('aFilter');
+  QUnit.equal(loadedFilter, secondFilter, 'aFilter -> secondFilter');
+
+  module.filter('aFilter');
+
+  QUnit.throws(function() {
+    angular.injector(['ng', 'A']).get('$filter');
+  }, 'Error');
+});
+
 QUnit.test('stop angular override', function () {
   var angular = benv.require('../bower_components/angular/angular.js', 'angular');
   benv.require('../stop-angular-overrides.js');
