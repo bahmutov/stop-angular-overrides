@@ -1,12 +1,15 @@
 {
   "name": "stop-angular-overrides",
   "description": "Stop silent angular module / controller / filter overrides",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": {
     "url": "https://github.com/bahmutov/stop-angular-overrides/issues"
   },
-  "contributors": [],
+  "contributors": [
+    "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+    "Tilman Potthof <tilmanpotthof@gmail.com>"
+  ],
   "dependencies": {},
   "devDependencies": {
     "benv": "0.1.6",

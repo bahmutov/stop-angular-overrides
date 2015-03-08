@@ -125,6 +125,11 @@ Spread the word: tweet, star on github, etc.
 Support: if you find any problems with this module, email / tweet /
 [open issue](https://github.com/bahmutov/stop-angular-overrides/issues) on Github
 
+### Contributors
+
+* [Gleb Bahmutov](https://github.com/bahmutov)
+* [Tilman Potthof](https://github.com/tilmanpotthof)
+
 ## MIT License
 
 Copyright (c) 2014 Gleb Bahmutov
