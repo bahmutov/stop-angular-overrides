@@ -4,6 +4,7 @@ node_js:
 branches:
   only:
     - master
+    - /^fix-.*$/
 before_script:
   - npm install -g grunt-cli
 after_success:

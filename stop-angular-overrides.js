@@ -8,39 +8,61 @@
 
   var _module = angular.bind(angular, angular.module);
 
-  var existingModules = Object.create(null);
-  var existingFilters = Object.create(null);
-  var existingControllers = Object.create(null);
+  function createUniqueNamingCheckFn(type) {
+    var existingNames = Object.create(null);
+    return function (name) {
+      if (existingNames[name]) {
+        throw new Error('Angular ' + type + ' ' + name + ' already exists');
+      }
+      existingNames[name] = true;
+    };
+  }
+
+  var existingModulesCheck = createUniqueNamingCheckFn('module');
+  var existingFiltersCheck = createUniqueNamingCheckFn('filter');
+  var existingControllersCheck = createUniqueNamingCheckFn('controller');
+  var existingServicesCheck = createUniqueNamingCheckFn('service');
+
+  function createServiceProxyFn(module, moduleServiceFn) {
+    return function (name, fn) {
+      existingServicesCheck(name);
+      return moduleServiceFn.call(module, name, fn);
+    };
+  }
 
   angular.module = function (name, deps) {
     if (!deps) {
       return _module(name);
     }
-    if (existingModules[name]) {
-      throw new Error('Angular module ' + name + ' already exists');
-    }
-    existingModules[name] = true;
+    existingModulesCheck(name);
+
     var m = _module(name, deps);
 
     // proxy .filter calls to the new module
     var _filter = angular.bind(m, m.filter);
     m.filter = function (name, fn) {
-      if (existingFilters[name]) {
-        throw new Error('Angular filter ' + name + ' already exists');
-      }
-      existingFilters[name] = true;
+      existingFiltersCheck(name);
       return _filter(name, fn);
     };
 
     // proxy .controller calls to the new module
     var _controller = angular.bind(m, m.controller);
     m.controller = function (name, fn) {
-      if (existingControllers[name]) {
-        throw new Error('Angular controller ' + name + ' already exists');
-      }
-      existingControllers[name] = true;
+      existingControllersCheck(name);
       return _controller(name, fn);
     };
+
+    // proxy .service calls to the new module
+    m.service = createServiceProxyFn(m, m.service);
+
+    // proxy .factory calls to the new module
+    m.factory = createServiceProxyFn(m, m.factory);
+
+    // proxy .value calls to the new module
+    m.value = createServiceProxyFn(m, m.value);
+
+    // proxy .provider calls to the new module
+    m.provider = createServiceProxyFn(m, m.provider);
 
     return m;
   };
