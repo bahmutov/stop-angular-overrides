@@ -24,10 +24,10 @@
   var existingServicesCheck = createUniqueNamingCheckFn('service');
   var existingDirectivesCheck = createUniqueNamingCheckFn('directive');
 
-  function createServiceProxyFn(module, moduleServiceFn) {
+  function createProxyFn(module, moduleFn, existingNameCheck) {
     return function (name, fn) {
-      existingServicesCheck(name);
-      return moduleServiceFn.call(module, name, fn);
+      existingNameCheck(name);
+      return moduleFn.call(module, name, fn);
     };
   }
 
@@ -40,37 +40,25 @@
     var m = _module(name, deps);
 
     // proxy .filter calls to the new module
-    var _filter = angular.bind(m, m.filter);
-    m.filter = function (name, fn) {
-      existingFiltersCheck(name);
-      return _filter(name, fn);
-    };
+    m.filter = createProxyFn(m, m.filter, existingFiltersCheck);
 
     // proxy .controller calls to the new module
-    var _controller = angular.bind(m, m.controller);
-    m.controller = function (name, fn) {
-      existingControllersCheck(name);
-      return _controller(name, fn);
-    };
+    m.controller = createProxyFn(m, m.controller, existingControllersCheck);
 
     // proxy .directive calls to the new module
-    var _directive = angular.bind(m, m.directive);
-    m.directive = function (name, fn) {
-      existingDirectivesCheck(name);
-      return _directive(name, fn);
-    };
+    m.directive = createProxyFn(m, m.directive, existingDirectivesCheck);
 
     // proxy .service calls to the new module
-    m.service = createServiceProxyFn(m, m.service);
+    m.service = createProxyFn(m, m.service, existingServicesCheck);
 
     // proxy .factory calls to the new module
-    m.factory = createServiceProxyFn(m, m.factory);
+    m.factory = createProxyFn(m, m.factory, existingServicesCheck);
 
     // proxy .value calls to the new module
-    m.value = createServiceProxyFn(m, m.value);
+    m.value = createProxyFn(m, m.value, existingServicesCheck);
 
     // proxy .provider calls to the new module
-    m.provider = createServiceProxyFn(m, m.provider);
+    m.provider = createProxyFn(m, m.provider, existingServicesCheck);
 
     return m;
   };
