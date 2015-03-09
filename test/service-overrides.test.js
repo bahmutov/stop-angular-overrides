@@ -2,7 +2,7 @@
 var benv = require('benv');
 var Q = require('q');
 
-QUnit.module('angular overrides', {
+QUnit.module('angular service overrides', {
   setup: function () {
     var defer = Q.defer();
     benv.setup(function () {

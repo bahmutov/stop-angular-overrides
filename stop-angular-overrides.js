@@ -22,6 +22,7 @@
   var existingFiltersCheck = createUniqueNamingCheckFn('filter');
   var existingControllersCheck = createUniqueNamingCheckFn('controller');
   var existingServicesCheck = createUniqueNamingCheckFn('service');
+  var existingDirectivesCheck = createUniqueNamingCheckFn('directive');
 
   function createServiceProxyFn(module, moduleServiceFn) {
     return function (name, fn) {
@@ -50,6 +51,13 @@
     m.controller = function (name, fn) {
       existingControllersCheck(name);
       return _controller(name, fn);
+    };
+
+    // proxy .directive calls to the new module
+    var _directive = angular.bind(m, m.directive);
+    m.directive = function (name, fn) {
+      existingDirectivesCheck(name);
+      return _directive(name, fn);
     };
 
     // proxy .service calls to the new module
