@@ -1,6 +1,6 @@
 # stop-angular-overrides
 
-> Stop silent Angular module / controller / function overrides
+> Stop silent Angular module / controller / filter / service / directive overrides
 
 [![Build status][stop-angular-overrides-ci-image] ][stop-angular-overrides-ci-url]
 [![Coverage Status][stop-angular-overrides-coverage-image]][stop-angular-overrides-coverage-url]
@@ -40,6 +40,7 @@ enforceable 100%, so I created this script. It prevents run-time overriding via 
 * angular.factory (across all service names)
 * angular.provider (across all service names)
 * angular.value (across all service names)
+* angular.directive (across all directive names)
 
 ## Overriding entities in Angular
 
