@@ -1,6 +1,6 @@
 # stop-angular-overrides
 
-> Stop silent Angular module / controller / filter / service / directive overrides
+> Prevents silent angular module / controller / filter / service / directive overrides
 
 [![Build status][stop-angular-overrides-ci-image] ][stop-angular-overrides-ci-url]
 [![Coverage Status][stop-angular-overrides-coverage-image]][stop-angular-overrides-coverage-url]
