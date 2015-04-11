@@ -158,11 +158,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 [stop-angular-overrides-icon]: https://nodei.co/npm/stop-angular-overrides.png?downloads=true
 [stop-angular-overrides-url]: https://npmjs.org/package/stop-angular-overrides
-[stop-angular-overrides-ci-image]: https://travis-ci.org/bahmutov/stop-angular-overrides.png?branch=master
+[stop-angular-overrides-ci-image]: https://travis-ci.org/bahmutov/stop-angular-overrides.svg?branch=master
 [stop-angular-overrides-ci-url]: https://travis-ci.org/bahmutov/stop-angular-overrides
-[stop-angular-overrides-coverage-image]: https://coveralls.io/repos/bahmutov/stop-angular-overrides/badge.png
+[stop-angular-overrides-coverage-image]: https://coveralls.io/repos/bahmutov/stop-angular-overrides/badge.svg
 [stop-angular-overrides-coverage-url]: https://coveralls.io/r/bahmutov/stop-angular-overrides
-[stop-angular-overrides-dependencies-image]: https://david-dm.org/bahmutov/stop-angular-overrides.png
+[stop-angular-overrides-dependencies-image]: https://david-dm.org/bahmutov/stop-angular-overrides.svg
 [stop-angular-overrides-dependencies-url]: https://david-dm.org/bahmutov/stop-angular-overrides
-[stop-angular-overrides-devdependencies-image]: https://david-dm.org/bahmutov/stop-angular-overrides/dev-status.png
+[stop-angular-overrides-devdependencies-image]: https://david-dm.org/bahmutov/stop-angular-overrides/dev-status.svg
 [stop-angular-overrides-devdependencies-url]: https://david-dm.org/bahmutov/stop-angular-overrides#info=devDependencies
