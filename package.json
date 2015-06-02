@@ -1,7 +1,7 @@
 {
   "name": "stop-angular-overrides",
   "description": "Prevents silent angular module / controller / filter / service / directive overrides",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": {
     "url": "https://github.com/bahmutov/stop-angular-overrides/issues"
