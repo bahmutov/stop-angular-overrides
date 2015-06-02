@@ -108,7 +108,7 @@ unrelated module wins just because it surrounds the element on the page. Madness
 ## Unit testing
 
 I unit tested the script using browser simulation under Nodejs.
-See my [blog post](http://bahmutov.calepin.co/unit-testing-angular-load-using-node.html)
+See my [blog post](http://glebbahmutov.com/blog/unit-testing-angular-load-using-node/)
 and [test.js](test/test.js)
 
 ### Small print
@@ -117,7 +117,7 @@ Author: Gleb Bahmutov &copy; 2014
 
 * [@bahmutov](https://twitter.com/bahmutov)
 * [glebbahmutov.com](http://glebbahmutov.com)
-* [blog](http://bahmutov.calepin.co/)
+* [blog](http://glebbahmutov.com/blog/)
 
 License: MIT - do anything with the code, but don't blame me if it does not work.
 
