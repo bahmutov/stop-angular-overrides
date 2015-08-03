@@ -12,17 +12,18 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "benv": "0.1.6",
+    "benv": "1.1.0",
     "coveralls": "2.11.1",
     "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
     "grunt-contrib-jshint": "0.10.0",
     "grunt-deps-ok": "0.2.0",
     "grunt-nice-package": "0.9.1",
     "grunt-npm2bower-sync": "0.4.0",
-    "gt": "0.8.38",
+    "gt": "0.8.48",
     "matchdep": "0.3.0",
     "pre-git": "0.0.16",
-    "q": "2.0.2",
+    "q": "1.4.0",
     "time-grunt": "0.4.0"
   },
   "directories": {
@@ -42,7 +43,7 @@
   "license": "MIT",
   "main": "stop-angular-overrides.js",
   "pre-commit": [
-    "grunt",
+    "npm run build",
     "npm test",
     "npm version"
   ],
@@ -51,7 +52,8 @@
     "url": "git://github.com/bahmutov/stop-angular-overrides.git"
   },
   "scripts": {
-    "test": "node ./node_modules/gt --output test/*test.js",
+    "build": "grunt",
+    "test": "gt --output test/*test.js",
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
