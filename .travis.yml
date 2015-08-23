@@ -1,11 +1,15 @@
 language: node_js
 node_js:
-  - iojs
+  - "0.12"
+sudo: false
 branches:
   only:
     - master
     - /^fix-.*$/
+    - /^issue-.*$/
 before_script:
+  - npm install -g bower
+  - bower install
   - npm run build
 after_success:
   - npm run coveralls
