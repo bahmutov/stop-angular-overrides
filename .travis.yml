@@ -8,6 +8,7 @@ branches:
     - /^fix-.*$/
     - /^issue-.*$/
 before_script:
+  - bower install
   - npm run build
 after_success:
   - npm run coveralls
