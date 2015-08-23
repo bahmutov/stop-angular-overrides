@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - /^fix-.*$/
+    - /^issue-.*$/
 before_script:
   - npm run build
 after_success:
